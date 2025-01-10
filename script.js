@@ -30,9 +30,11 @@ function switchTab(clickedTab) {
       userInfoContainer.classList.remove("active");
       grantAccessContainer.classList.remove("active");
       searchForm.classList.add("active");
+      errorContainer.classList.remove("active");
     } else {
       searchForm.classList.remove("active");
       userInfoContainer.classList.remove("active");
+      errorContainer.classList.remove("active");
       getFromSessionStorage();
     }
   }
@@ -142,10 +144,13 @@ searchForm.addEventListener("submit", (e) => {
   fetchSearchWeatherInfo(searchInput.value);
 });
 
+const errorContainer = document.querySelector("[data-errorContainer]");
+
 async function fetchSearchWeatherInfo(city) {
   loadingScreen.classList.add("active");
   userInfoContainer.classList.remove("active");
   grantAccessContainer.classList.remove("active");
+  errorContainer.classList.remove("active");
 
   try {
     const res = await fetch(
@@ -153,8 +158,16 @@ async function fetchSearchWeatherInfo(city) {
     );
 
     const data = await res.json();
+
+    if (data?.cod === "404") {
+      throw new Error("Here Error comes");
+    }
+
     loadingScreen.classList.remove("active");
     userInfoContainer.classList.add("active");
     renderWeatherInfo(data);
-  } catch (err) {}
+  } catch (err) {
+    loadingScreen.classList.remove("active");
+    errorContainer.classList.add("active");
+  }
 }

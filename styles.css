@@ -228,3 +228,33 @@ h1 {
   border-radius: 50%;
   margin-bottom: 1px;
 }
+
+.error-show-container {
+  display: none;
+  /* display: flex; */
+  flex-direction: column;
+  align-items: center;
+}
+
+.error-show-container.active {
+  display: flex;
+}
+.error-show-container img {
+  width: 300px;
+  margin-bottom: 1.25rem;
+}
+
+@media screen and (max-width: 770px) {
+  .parameter-container {
+    flex-direction: column;
+    flex-wrap: wrap;
+  }
+  .parameter {
+    width: 50%;
+    min-width: 200px;
+  }
+  h1 {
+    margin-top: 50px;
+    font-size: 1.7rem;
+  }
+}
